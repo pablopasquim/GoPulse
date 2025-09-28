@@ -1,13 +1,11 @@
 package routes
 
 import (
-	"log"
-	"net/http"
-
+	"github.com/gin-gonic/gin"
 	"github.com/pablopasquim/GoPulse/controllers"
 )
 
-func HandleRequest() {
-	http.HandleFunc("/", controllers.Home)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+func HandleRequest(r *gin.Engine) { // endpoints
+	r.GET("/api/items", controllers.GetItems)
+	r.POST("/api/create", controllers.CreateItem)
 }

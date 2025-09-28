@@ -1,11 +1,30 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"github.com/pablopasquim/GoPulse/data"
+	"github.com/pablopasquim/GoPulse/models"
 )
 
-func Home(w http.ResponseWriter, r *http.Request) {
+func GetItems(c *gin.Context) {
 
-	fmt.Fprint(w, "Home Page")
+	var items []models.Item                            // slice items
+	if err := data.DB.Find(&items).Error; err != nil { // find in db
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, items) // return
+}
+
+func CreateItem(c *gin.Context) {
+
+	var item models.Item
+	if err := c.ShouldBindJSON(&item); err != nil { // read the body http request
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	data.DB.Create(&item)       // create item
+	c.JSON(http.StatusOK, item) // return
 }
