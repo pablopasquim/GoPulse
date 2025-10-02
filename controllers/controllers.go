@@ -27,6 +27,11 @@ func GetItemId(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, item)
+
+	if item.ID == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "item not found"})
+		return
+	}
 }
 
 func CreateItem(c *gin.Context) {
