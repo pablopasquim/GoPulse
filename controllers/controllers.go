@@ -18,6 +18,17 @@ func GetItems(c *gin.Context) {
 	c.JSON(http.StatusOK, items) // return
 }
 
+func GetItemId(c *gin.Context) {
+
+	var item models.Item
+	id := c.Param("id")
+	if err := data.DB.First(&item, id).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, item)
+}
+
 func CreateItem(c *gin.Context) {
 
 	var item models.Item

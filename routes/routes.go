@@ -7,5 +7,6 @@ import (
 
 func HandleRequest(r *gin.Engine) { // endpoints
 	r.GET("/api/items", controllers.GetItems)
-	r.POST("/api/create", controllers.CreateItem)
+	r.GET("/api/item/:id", controllers.GetItemId)
+	r.POST("/api/items", controllers.CreateItem)
 }
