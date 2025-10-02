@@ -53,10 +53,11 @@ go run main.go
 
 > You can document your main endpoints here. For example:
 
-- `GET /api/resource` - List resources
-- `POST /api/resource` - Create a new resource
-- `PUT /api/resource/:id` - Update a resource
-- `DELETE /api/resource/:id` - Delete a resource
+- `GET /api/items/` - List item
+- `GET /api/items/:id` - List item for ID
+- `POST /api/items/` - Create a new item 
+- `PUT /api/items/:id` - Update a item for ID
+- `DELETE /api/items/:id` - Delete a item for ID
 
 ## Project Structure
 
