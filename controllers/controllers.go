@@ -26,12 +26,8 @@ func GetItemId(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, item)
 
-	if item.ID == 0 {
-		c.JSON(http.StatusNotFound, gin.H{"error": "item not found"})
-		return
-	}
+	c.JSON(http.StatusOK, item)
 }
 
 func CreateItem(c *gin.Context) {
@@ -43,4 +39,32 @@ func CreateItem(c *gin.Context) {
 	}
 	data.DB.Create(&item)       // create item
 	c.JSON(http.StatusOK, item) // return
+}
+
+func DeleteItemId(c *gin.Context) {
+	var item models.Item
+	id := c.Param("id")
+	if err := data.DB.First(&item, id).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	data.DB.Delete(&item)
+	c.JSON(http.StatusOK, item)
+}
+
+func EditItemId(c *gin.Context) {
+	var item models.Item
+	id := c.Param("id")
+	if err := data.DB.First(&item, id).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := c.ShouldBindJSON(&item); err != nil { // read the body http request
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	data.DB.Model(&item).Updates(&item)
+	c.JSON(http.StatusOK, item)
 }

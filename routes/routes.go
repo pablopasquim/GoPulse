@@ -9,4 +9,6 @@ func HandleRequest(r *gin.Engine) { // endpoints
 	r.GET("/api/items", controllers.GetItems)
 	r.GET("/api/items/:id", controllers.GetItemId)
 	r.POST("/api/items", controllers.CreateItem)
+	r.DELETE("/api/items/:id", controllers.DeleteItemId)
+	r.PUT("/api/items/:id", controllers.EditItemId)
 }
